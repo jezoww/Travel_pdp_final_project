@@ -1,0 +1,38 @@
+[
+  {
+        "model": "user.city",
+        "pk": 1,
+        "fields": {
+            "name": "Toshkent",
+            "country_id": 239
+        }
+    },{
+        "model": "user.city",
+        "pk": 1,
+        "fields": {
+            "name": "Samarqand",
+            "country_id": 239
+        }
+    },{
+        "model": "user.city",
+        "pk": 1,
+        "fields": {
+            "name": "Buxoro",
+            "country_id": 239
+        }
+    },{
+        "model": "user.city",
+        "pk": 1,
+        "fields": {
+            "name": "Xiva",
+            "country_id": 239
+        }
+    },{
+        "model": "user.city",
+        "pk": 1,
+        "fields": {
+            "name": "Termiz",
+            "country_id": 239
+        }
+    }
+]

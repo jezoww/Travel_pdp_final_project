@@ -1,0 +1,9 @@
+.idea
+.env
+.venv
+db.sqlite3
+Plan
+chat/migrations/*
+travel/migrations/*
+user/migrations/*
+media

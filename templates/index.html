@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Chat</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #333;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 5px 0;
+            display: inline-block;
+            clear: both;
+        }
+
+        .own-message {
+            background-color: #007bff;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .other-message {
+            background-color: #444;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Private Chat</h2>
+<div id="chat-box"></div>
+
+<input type="text" id="message-input" placeholder="Xabar yozing...">
+<button id="send-button">Yuborish</button>
+
+<script>
+    const token = localStorage.getItem("access_token");
+
+    // URL dan user2_id ni olish
+    const pathParts = window.location.pathname.split("/");
+    const user2_id = pathParts[pathParts.length - 2]; // Agar path `/chat/2/` bo'lsa, user2_id = 2
+
+    const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/${user2_id}/`);
+
+    chatSocket.onopen = function () {
+        chatSocket.send(JSON.stringify({
+            type: "auth",
+            token: token
+        }));
+    };
+
+    chatSocket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        console.log("Yangi xabar:", data.message);
+    };
+
+    document.getElementById("send-button").onclick = function () {
+        const message = document.getElementById("message-input").value;
+        chatSocket.send(JSON.stringify({"message": message}));
+    };
+
+</script>
+
+</body>
+</html>

@@ -327,3 +327,12 @@ class MyCardListAPIView(ListAPIView):
 
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user)
+
+
+
+
+
+
+# =================================== =======================
+
+

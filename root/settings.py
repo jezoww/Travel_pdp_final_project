@@ -33,7 +33,12 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -44,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "root.urls"
@@ -59,6 +65,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -169,9 +176,6 @@ SIMPLE_JWT = {
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
-
-
-
 # ===================== ws ==================
 CHANNEL_LAYERS = {
     "default": {
@@ -180,4 +184,33 @@ CHANNEL_LAYERS = {
             "hosts": [("127.0.0.1", 6379)],
         },
     },
+}
+
+# ======================= allauth ============
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'EMAIL_AUTHENTICATION': True,
+        'APP': {
+            'client_id': getenv('GOOGLE_OAUTH_CLIENT_ID'),
+            'secret': getenv('GOOGLE_OAUTH_CLIENT_SECRET'),
+            'key': ''
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+SOCIALACCOUNT_FORMS = {
+    'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
+    'signup': 'allauth.socialaccount.forms.SignupForm',
 }

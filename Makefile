@@ -10,7 +10,9 @@ udb:
 	rm -rf db.sqlite3
 	rm -rf user/migrations/*
 	rm -rf travel/migrations/*
+	rm -rf chat/migrations/*
 	touch user/migrations/__init__.py
+	touch chat/migrations/__init__.py
 	touch travel/migrations/__init__.py
 	python3 manage.py makemigrations
 	python3 manage.py migrate
